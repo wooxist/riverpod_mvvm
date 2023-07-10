@@ -1,63 +1,86 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-
-import 'package:flutter/services.dart';
 import 'package:riverpod_mvvm/riverpod_mvvm.dart';
+import 'package:riverpod_mvvm_example/second_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+
+  runApp(
+    const ProviderScope(
+      child: MaterialApp(
+        home: MyApp(),
+      ),
+    ),
+  );
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatefulView<MyAppViewModel, int> {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  ViewState<MyAppViewModel, int> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-  final _riverpodMvvmPlugin = RiverpodMvvm();
-
+class _MyAppState extends ViewState<MyAppViewModel, int> with MyAppUiActions {
   @override
-  void initState() {
-    super.initState();
-    initPlatformState();
-  }
-
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
-    try {
-      platformVersion =
-          await _riverpodMvvmPlugin.getPlatformVersion() ?? 'Unknown platform version';
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
-    });
-  }
+  initViewModel() {}
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
+    return Scaffold(
+      appBar: AppBar(
+        leading: InkWell(
+          onTap: () {
+            read.moveToSecond();
+          },
+          child: const Icon(Icons.exit_to_app_sharp),
         ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+        title: const Text('Example'),
+      ),
+      body: Center(
+        child: Text(
+          '$watch',
+          style: const TextStyle(fontSize: 32),
         ),
       ),
+      floatingActionButton: FloatingActionButton.large(
+        onPressed: () {
+          read.increase();
+        },
+        child: const Icon(Icons.add),
+      ),
     );
+  }
+
+  @override
+  MyAppViewModel get read => ref.read(myAppViewModelProvider.notifier);
+
+  @override
+  int get watch => ref.watch(myAppViewModelProvider);
+
+  @override
+  moveToSecondPage() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const SecondPage()));
+  }
+}
+
+mixin MyAppUiActions {
+  moveToSecondPage();
+}
+
+final myAppViewModelProvider =
+    StateNotifierProvider<MyAppViewModel, int>((ref) => MyAppViewModel(0));
+
+class MyAppViewModel extends StateNotifier<int> with ViewModel<MyAppUiActions> {
+  MyAppViewModel(super.state);
+
+  increase() {
+    state++;
+  }
+
+  moveToSecond() {
+    state = 0;
+    uiActions.moveToSecondPage();
   }
 }
