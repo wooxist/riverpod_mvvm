@@ -53,10 +53,10 @@ class _MyAppState extends ViewState<MyAppViewModel, int> with MyAppUiActions {
   }
 
   @override
-  MyAppViewModel get read => ref.read(myAppViewModelProvider.notifier);
+  MyAppViewModel get read => ref.read(myAppViewModel.notifier);
 
   @override
-  int get watch => ref.watch(myAppViewModelProvider);
+  int get watch => ref.watch(myAppViewModel);
 
   @override
   moveToSecondPage() {
@@ -69,7 +69,7 @@ mixin MyAppUiActions {
   moveToSecondPage();
 }
 
-final myAppViewModelProvider =
+final myAppViewModel =
     StateNotifierProvider<MyAppViewModel, int>((ref) => MyAppViewModel(0));
 
 class MyAppViewModel extends StateNotifier<int> with ViewModel<MyAppUiActions> {
