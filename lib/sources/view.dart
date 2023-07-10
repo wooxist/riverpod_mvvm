@@ -79,5 +79,7 @@ abstract class StatelessView<VM extends ViewModel, VMS> extends ConsumerWidget {
     return Container();
   }
 
-  VM get read;
+  VM read(WidgetRef ref);
+
+  VMS watch(WidgetRef ref);
 }
