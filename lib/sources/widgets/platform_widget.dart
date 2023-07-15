@@ -46,10 +46,11 @@ abstract class PlatformStatefulWidget extends StatefulWidget {
   const PlatformStatefulWidget({super.key});
 
   @override
-  PlatformState createState();
+  PlatformState<PlatformStatefulWidget> createState();
 }
 
-abstract class PlatformState extends State<PlatformStatefulWidget> {
+abstract class PlatformState<W extends PlatformStatefulWidget>
+    extends State<W> {
   Widget buildCupertino(BuildContext context);
 
   Widget buildMaterial(BuildContext context);
