@@ -10,8 +10,8 @@ import 'package:flutter/material.dart';
 /// [CupertinoApp] is used, and [buildMaterial] if [MaterialApp] is used.
 /// Optionally, [buildWrapper] can be implemented to have a common wrapper
 /// widget for both types of apps.
-abstract class PlatformWidget extends StatelessWidget {
-  const PlatformWidget({super.key});
+abstract class PlatformStatelessWidget extends StatelessWidget {
+  const PlatformStatelessWidget({super.key});
 
   Widget buildCupertino(BuildContext context);
 

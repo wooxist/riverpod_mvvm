@@ -8,7 +8,7 @@ import 'package:riverpod_mvvm/sources/widgets/platform_widget.dart';
 
 /// Utility Scaffold that uses [CupertinoPageScaffold] under [CupertinoApp] and
 /// [Scaffold] under [MaterialApp].
-class UniversalScaffold extends PlatformWidget {
+class UniversalScaffold extends PlatformStatelessWidget {
   /// See [CupertinoPageScaffold.child] and [Scaffold.body]
   final Widget body;
 
