@@ -8,6 +8,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 export 'package:flutter_riverpod/flutter_riverpod.dart';
 
+export 'sources/widgets/widgets.dart';
+
 part 'sources/ui_actions.dart';
 
 part 'sources/view.dart';

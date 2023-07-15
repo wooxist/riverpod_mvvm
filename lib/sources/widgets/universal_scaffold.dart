@@ -4,7 +4,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:riverpod_mvvm/sources/platform_widgets/platform_widget.dart';
+import 'package:riverpod_mvvm/sources/widgets/platform_widget.dart';
 
 /// Utility Scaffold that uses [CupertinoPageScaffold] under [CupertinoApp] and
 /// [Scaffold] under [MaterialApp].
