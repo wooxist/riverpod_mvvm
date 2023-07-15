@@ -49,8 +49,7 @@ abstract class PlatformStatefulWidget extends StatefulWidget {
   PlatformState createState();
 }
 
-abstract class PlatformState extends State<PlatformStatefulWidget>
-    with WidgetsBindingObserver {
+abstract class PlatformState extends State<PlatformStatefulWidget> {
   Widget buildCupertino(BuildContext context);
 
   Widget buildMaterial(BuildContext context);
@@ -58,34 +57,6 @@ abstract class PlatformState extends State<PlatformStatefulWidget>
   Widget? buildWrapper(BuildContext context, Widget child) {
     return null;
   }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    switch (state) {
-      case AppLifecycleState.inactive:
-        onInactive();
-        break;
-      case AppLifecycleState.resumed:
-        onResumed();
-        break;
-      case AppLifecycleState.paused:
-        onPaused();
-        break;
-      case AppLifecycleState.detached:
-        onDetached();
-        break;
-      default:
-        break;
-    }
-  }
-
-  void onInactive() {}
-
-  void onResumed() {}
-
-  void onPaused() {}
-
-  void onDetached() {}
 
   @override
   Widget build(BuildContext context) {
