@@ -41,3 +41,69 @@ abstract class PlatformWidget extends StatelessWidget {
     }
   }
 }
+
+abstract class PlatformStatefulWidget extends StatefulWidget {
+  const PlatformStatefulWidget({super.key});
+
+  @override
+  PlatformState createState();
+}
+
+abstract class PlatformState extends State<PlatformStatefulWidget>
+    with WidgetsBindingObserver {
+  Widget buildCupertino(BuildContext context);
+
+  Widget buildMaterial(BuildContext context);
+
+  Widget? buildWrapper(BuildContext context, Widget child) {
+    return null;
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.inactive:
+        onInactive();
+        break;
+      case AppLifecycleState.resumed:
+        onResumed();
+        break;
+      case AppLifecycleState.paused:
+        onPaused();
+        break;
+      case AppLifecycleState.detached:
+        onDetached();
+        break;
+      default:
+        break;
+    }
+  }
+
+  void onInactive() {}
+
+  void onResumed() {}
+
+  void onPaused() {}
+
+  void onDetached() {}
+
+  @override
+  Widget build(BuildContext context) {
+    final isCupertino = CupertinoUserInterfaceLevel.maybeOf(context) != null;
+    late Widget child;
+
+    if (isCupertino) {
+      child = buildCupertino(context);
+    } else {
+      child = buildMaterial(context);
+    }
+
+    final wrapper = buildWrapper(context, child);
+
+    if (wrapper == null) {
+      return child;
+    } else {
+      return wrapper;
+    }
+  }
+}
